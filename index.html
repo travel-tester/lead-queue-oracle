@@ -178,13 +178,14 @@
   .os-opt.on::before { color: var(--gold); }
   .shake {
     flex: 0 0 auto;
+    display: inline-flex; align-items: center; justify-content: center;
     background: var(--gold);
     color: var(--btn-ink);
     border: none;
     border-radius: 12px;
-    padding: 15px 26px;
+    padding: 15px 26px 13px;
     font-family: var(--font-display); font-weight: 400; font-size: 16px;
-    letter-spacing: 0.02em;
+    line-height: 1; letter-spacing: 0.02em;
     cursor: pointer;
     transition: transform .12s ease, filter .2s ease;
   }
@@ -367,9 +368,9 @@
   .flow .cap { flex: 0 0 auto; font-size: 10.5px; font-style: italic; color: var(--muted); white-space: nowrap; }
   .flow .cap .k { color: var(--gold); font-style: normal; font-weight: 700; }
   @media (max-width: 480px) {
-    .flow { flex-wrap: wrap; gap: 5px 8px; }
+    .flow { flex-direction: column; align-items: flex-start; gap: 3px; }
     .flow .rail { display: none; }
-    .flow .cap { flex-basis: 100%; order: 5; text-align: center; }
+    .flow .cap { text-align: left; }
   }
 
   @media (prefers-reduced-motion: reduce) {
