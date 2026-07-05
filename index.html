@@ -46,9 +46,9 @@
 
     --ball-grad: radial-gradient(circle at 33% 27%, #3a3550 0%, #14121c 46%, #030307 80%);
     --ball-shadow: inset -20px -22px 54px rgba(0,0,0,0.8), inset 14px 16px 32px rgba(120,110,160,0.14), 0 40px 70px -30px rgba(0,0,0,0.9);
-    --win-grad: radial-gradient(circle at 50% 34%, #3a2a5c, #1c1338 74%, #0c0722 100%);
+    --win-grad: radial-gradient(circle at 50% 34%, #241a45, #150e30 72%, #0a0620 100%);
     --win-shadow: inset 0 3px 14px rgba(0,0,0,0.65), inset 0 0 0 1px rgba(212,175,99,0.22);
-    --tri-grad: linear-gradient(180deg, #45336e, #241a44);
+    --tri-grad: linear-gradient(180deg, #8570d0, #5e49a3);
     --gloss: rgba(255,255,255,0.5);
 
     --btn-ink: #2a1e0c;
@@ -90,7 +90,7 @@
     --ball-shadow: inset -18px -20px 46px rgba(0,0,0,0.55), inset 12px 14px 28px rgba(160,150,160,0.12), 0 34px 60px -30px rgba(56,40,56,0.6);
     --win-grad: radial-gradient(circle at 50% 32%, #fdfdf5, #eae9d6 74%, #e1e0cc 100%);
     --win-shadow: inset 0 2px 10px rgba(56,40,56,0.26), inset 0 0 0 1px rgba(114,90,54,0.2);
-    --tri-grad: linear-gradient(180deg, #ffffff, #ece9d4);
+    --tri-grad: linear-gradient(180deg, #efeccf, #ddd9bb);
     --gloss: rgba(255,255,255,0.55);
 
     --btn-ink: #F8F8E8;
@@ -237,10 +237,11 @@
   }
   .tri {
     position: absolute; z-index: 1;
-    width: 76%; aspect-ratio: 1;
-    top: 50%; left: 50%; transform: translate(-50%, -46%);
-    clip-path: polygon(50% 4%, 96% 92%, 4% 92%);
+    width: 82%; aspect-ratio: 1;
+    inset: 0; margin: auto;
+    clip-path: polygon(50% 8%, 90% 71%, 10% 71%);
     background: var(--tri-grad);
+    animation: bob 4.5s ease-in-out infinite;
   }
   .die {
     position: relative; z-index: 2;
@@ -250,12 +251,14 @@
     transition: opacity .25s ease, transform .25s ease;
   }
   .die.flip { opacity: 0; transform: translateY(6px) scale(.9); }
+  @keyframes bob { 0%,100% { transform: translateY(-2.5px); } 50% { transform: translateY(2.5px); } }
+  .die:not(.flip) { animation: bob 4.5s ease-in-out infinite; }
   .die .num {
     font-family: var(--font-display); font-weight: 400;
     font-size: clamp(30px, 9vw, 46px); line-height: 1;
     color: var(--ink);
   }
-  .die .griffin { width: 36%; height: auto; display: block; fill: var(--ink); }
+  .die .griffin { width: 22%; height: auto; display: block; fill: var(--ink); }
   .die .verdictword {
     font-family: var(--font-display);
     font-size: clamp(14px, 3.6vw, 18px); font-weight: 400;
@@ -379,6 +382,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .ball.shaking { animation: none; }
+    .die:not(.flip), .tri { animation: none; }
     .die, .reading { transition: none; }
   }
 </style>
