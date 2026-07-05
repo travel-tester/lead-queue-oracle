@@ -282,6 +282,7 @@
     transition: opacity .4s ease, transform .4s ease;
   }
   .reading.show { opacity: 1; transform: none; }
+  .reading:not(.show) { display: none; }   /* don't reserve scroll space before an answer */
   .reading .act {
     display: flex; align-items: center; justify-content: center; gap: 12px;
     font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase;
@@ -381,6 +382,7 @@
     opacity: 0; transition: opacity .4s ease;
   }
   .finefolk.show { opacity: 1; }
+  .finefolk:not(.show) { display: none; }
   .finefolk .star { color: var(--gold); flex: 0 0 auto; }
   .finefolk b { color: var(--ink); font-weight: 700; }
 
@@ -438,11 +440,12 @@
     62% { transform: translate(4px,-2px) rotate(1.8deg); }
   }
   .ball.blendspin { animation: blendspin var(--spindur, 1.2s) ease-in-out; box-shadow: none; }
+  .ball.blendspin.spinrev { animation-direction: reverse; }   /* spin OUT the opposite way */
   .ball.blendspin::before { display: none; }   /* kill the drop-shadow/gloss box the blur reveals */
   @keyframes blendspin {
     0%   { transform: rotate(0deg) scale(1); }
-    50%  { transform: rotate(360deg) scale(.9); }
-    100% { transform: rotate(720deg) scale(1); }
+    50%  { transform: rotate(1080deg) scale(.82); }
+    100% { transform: rotate(2160deg) scale(1); }
   }
 
   /* the genie takes over the ball */
@@ -463,6 +466,7 @@
   .ball.oracle::before { display: none; }
   .window { transition: opacity .55s ease; }
   .ball.oracle .window { opacity: 0; }
+  .ball.snap .oracle-img, .ball.snap .window { transition: none; }   /* instant swap mid-spin */
   /* slower dissolve when Zoltan melts back into the 8-ball */
   .ball.reverting .window { transition-duration: 1.5s; }
   .ball.reverting .oracle-img { transition-duration: 1.5s; }
@@ -617,7 +621,7 @@
 
   <div class="finefolk" id="finefolk">
     <span class="star">✳</span>
-    <span>All of this only applies while the first quote has <b>not</b> gone out. Once it's sent, the math freezes and you're on your own, go ask your SD.</span>
+    <span>All of this only applies while the first quote has <b>not</b> gone out. Once it's sent, the math freezes and it's an SD conversation from there.</span>
   </div>
 </div>
 
@@ -664,7 +668,7 @@
       value: "down", queue: "none",
       valueSub: "the value lifts back off your name, you reclaim that room",
       queueSub: "your queue spot holds, no bump either way",
-      win: "ROOM BACK", tone: "neutral", badge: "Gap reopens",
+      win: "LET IT GO", tone: "neutral", badge: "Gap reopens",
       meaning: "When a lead lapses, its value lifts back off your name and your gap reopens, so you reclaim that room to be fed again. Your queue spot holds either way, no bump. You lose the lead itself, but your standing doesn't move. If it gets reassigned back to you, that's when you take the value on again and drop to the bottom." },
 
     { label: "Get a lead re-assigned after it expired",
@@ -852,8 +856,11 @@
       '<div class="verdictword" style="color:' + toneColor(a.tone) + '">' + a.win + '</div>' +
       '<div class="verdictsub">' + DIR[a.value].arrow + ' val &nbsp; ' + DIR[a.queue].arrow + ' queue</div>';
     die.classList.remove("flip");
+    const fine = document.getElementById("finefolk");
+    reading.style.display = "block"; fine.style.display = "flex";
+    void reading.offsetWidth;   // reflow so the fade-in still animates from display:none
     reading.classList.add("show");
-    document.getElementById("finefolk").classList.add("show");
+    fine.classList.add("show");
     setTimeout(scrollToAnswer, 110);
   }
 
@@ -947,7 +954,7 @@
     if (ball.classList.contains("blendspin")) return;   // ignore taps mid-blend
     eggClicks++;
     switch (eggClicks) {
-      case 5:  nudgeBall(); eggFlash('<div class="big">Buy <span class="k">bitcoin</span>.</div><div class="small">not financial advice</div>', 1900); return;
+      case 5:  nudgeBall(); eggFlash('<div class="big">Should have bought <span class="k">bitcoin</span>.</div>', 1900); return;
       case 10: crackBall(); return;
       case 17: cleoFile(); return;
       case 24: summonGenie(); return;
@@ -987,7 +994,7 @@
       el.className = "cleo-file"; el.src = url; el.alt = "";
       ballWrap.appendChild(el);
       setTimeout(() => el.classList.add("on"), 20);
-      setTimeout(() => { el.classList.remove("on"); setTimeout(() => el.remove(), 660); }, 1700);
+      setTimeout(() => { el.classList.remove("on"); setTimeout(() => el.remove(), 660); }, 2200);
     });
   }
 
@@ -1000,13 +1007,14 @@
   }
 
   // blurred "blend spin": rotate + blur, swap the state at the blurred midpoint
-  function blendSpin(atMid, dur) {
+  function blendSpin(atMid, dur, reverse) {
     dur = dur || 1200;
-    ball.classList.remove("blendspin"); void ball.offsetWidth;
+    ball.classList.remove("blendspin", "spinrev"); void ball.offsetWidth;
     ball.style.setProperty("--spindur", dur + "ms");
+    if (reverse) ball.classList.add("spinrev");
     ball.classList.add("blendspin");
     setTimeout(atMid, Math.round(dur * 0.47));
-    setTimeout(() => ball.classList.remove("blendspin"), dur + 40);
+    setTimeout(() => ball.classList.remove("blendspin", "spinrev"), dur + 40);
   }
 
   function summonGenie() {
@@ -1052,23 +1060,24 @@
 
   function genieRage() {
     if (!ball.classList.contains("oracle")) { nudgeBall(); return; }
-    crossGenie("angry");
+    genieFront.src = GENIE.angry || GENIE_SRC.angry;   // instant switch to mad, no crossfade
     setTimeout(function () {
-      sparkle();
       if (reduce) { backToBall(); return; }
-      blendSpin(backToBall, 2000);   // slow spin back to the 8-ball, sparkles cover the swap
+      blendSpin(backToBall, 1200, true);   // same spin as the entry, reversed direction
     }, 1500);
   }
 
   // dissolve the genie away, revealing the 8-ball again (no spin)
   function backToBall() {
-    ball.classList.remove("oracle");                       // window fades back in under the spin
-    oracleImg.classList.remove("shown"); oracleImg2.classList.remove("shown");   // genie fades out
+    ball.classList.add("snap");                            // instant swap under the fast spin (no crossfade pause)
+    ball.classList.remove("oracle");
+    oracleImg.classList.remove("shown"); oracleImg2.classList.remove("shown");
     eggClicks = 0;   // the whole gag can run again
     setTimeout(function () {
       oracleImg.classList.remove("masked"); oracleImg2.classList.remove("masked");
       oracleImg.removeAttribute("src"); oracleImg2.removeAttribute("src");
       genieFront = oracleImg; genieBack = oracleImg2;
+      ball.classList.remove("snap");
     }, 900);
   }
 
