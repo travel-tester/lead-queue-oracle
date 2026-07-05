@@ -352,23 +352,25 @@
   .ex { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
   .ex-h { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
   .ex-note { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); font-style: italic; }
-  .de { padding: 13px 0; }
+  .de { padding: 16px 0; }
   .de + .de { border-top: 1px dashed color-mix(in srgb, var(--ink) 9%, transparent); }
-  .de-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .de-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 12px; }
   .de-top .who { font-size: 12.5px; color: var(--muted); }
   .de-top .who.you { color: var(--ink); font-weight: 700; }
   .de-top .qpos { font-size: 11.5px; font-weight: 700; white-space: nowrap; }
   .qpos.up { color: var(--gold); }
   .qpos.down { color: var(--cool); }
   .qpos.flat { color: var(--muted); }
-  .flow { display: flex; align-items: center; gap: 9px; font-variant-numeric: tabular-nums; }
-  .flow .n { font-size: 13px; white-space: nowrap; color: var(--muted); flex: 0 0 auto; }
-  .flow .n .num { font-weight: 700; font-size: 15px; }
+  .flow { display: flex; align-items: center; gap: 10px; font-variant-numeric: tabular-nums; }
+  .flow .n { font-size: 12px; white-space: nowrap; color: var(--muted); flex: 0 0 auto; }
+  .flow .n .num0 { font-weight: 700; font-size: 15.5px; color: var(--ink); }
+  .flow .n .num { font-weight: 700; font-size: 15.5px; }
   .flow .n .num.up { color: var(--gold); }
   .flow .n .num.down { color: var(--cool); }
   .flow .n .num.lost { color: var(--bad); }
   .flow .n .num.flat { color: var(--muted); }
-  .flow .rail { flex: 1 1 auto; min-width: 14px; height: 0; border-top: 1px dashed var(--gold-dim); position: relative; }
+  .flow .n .unit { font-size: 10px; font-style: italic; font-weight: 400; color: var(--muted); opacity: 0.85; }
+  .flow .rail { flex: 1 1 auto; min-width: 16px; height: 0; border-top: 1px dashed color-mix(in srgb, var(--gold-dim) 70%, transparent); position: relative; }
   .flow .rail.tip::after { content: "\25B8"; position: absolute; right: -3px; top: -9px; color: var(--gold-dim); font-size: 11px; }
   .flow .cap { flex: 0 0 auto; font-size: 10.5px; font-style: italic; color: var(--muted); white-space: nowrap; }
   .flow .cap .k { color: var(--gold); font-style: normal; font-weight: 700; }
@@ -524,31 +526,31 @@
 
   const EXAMPLES = [
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k", cap: "the queue feeds you a <span class='k'>$1k lead</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "the queue feeds you a <span class='k'>$1k lead</span>", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k", cap: "you stack your own <span class='k'>$1k client</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "you stack your own <span class='k'>$1k client</span>", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The swap", rows: [
-      { who: "You", you: true, before: "$99k", cap: "you hand the <span class='k'>$1k lead</span> off", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" },
-      { who: "A teammate", before: "$100k", cap: "the <span class='k'>$1k</span> lands with them", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$99k", cap: "you hand the <span class='k'>$1k lead</span> off", pre: "now", num: "$100k", nc: "up", q: "Top of the queue", qd: "up" },
+      { who: "A teammate", before: "$100k", cap: "the <span class='k'>$1k</span> lands with them", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The swap", rows: [
-      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k lead</span> lands on you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" },
-      { who: "A teammate", before: "$99k", cap: "they hand it to <span class='k'>you</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
+      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k lead</span> lands on you", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" },
+      { who: "A teammate", before: "$99k", cap: "they hand it to <span class='k'>you</span>", pre: "now", num: "$100k", nc: "up", q: "Top of the queue", qd: "up" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$99k", cap: "you bin the dead <span class='k'>$1k</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
+      { who: "You", you: true, before: "$99k", cap: "you bin the dead <span class='k'>$1k</span>", pre: "now", num: "$100k", nc: "up", q: "Top of the queue", qd: "up" }
     ]},
     { h: "The trap", rows: [
-      { who: "You", you: true, before: "$99k", cap: "the <span class='k'>$1k lead</span> dies on your name", pre: "still", num: "$99k in opportunity", nc: "flat", q: "No change", qd: "flat" },
-      { who: "A teammate grabs it", before: "$100k", cap: "the dead <span class='k'>$1k</span> becomes theirs", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$99k", cap: "the <span class='k'>$1k lead</span> dies on your name", pre: "still", num: "$99k", nc: "flat", q: "No change", qd: "flat" },
+      { who: "A teammate grabs it", before: "$100k", cap: "the dead <span class='k'>$1k</span> becomes theirs", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k</span> is re-stuck to you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k</span> is re-stuck to you", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k", cap: "you grab a <span class='k'>$1k lead</span> off the shelf", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "you grab a <span class='k'>$1k lead</span> off the shelf", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { note: "Nothing moves. Your gap and your queue spot both hold, win or lose." },
     { note: "Nothing moves. The quote is out and the scoreboard is frozen." }
@@ -558,14 +560,15 @@
   function renderExample(ex) {
     if (!ex) return "";
     if (ex.note) return '<div class="ex"><p class="ex-note">' + ex.note + '</p></div>';
+    var UNIT = ' <span class="unit">in opportunity</span>';
     var html = '<div class="ex"><p class="ex-h">' + ex.h + '</p>';
     ex.rows.forEach(function (r) {
       html += '<div class="de">'
         + '<div class="de-top"><span class="who' + (r.you ? ' you' : '') + '">' + r.who + '</span>'
         + '<span class="qpos ' + r.qd + '">' + QARROW[r.qd] + ' ' + r.q + '</span></div>'
-        + '<div class="flow"><span class="n">' + r.before + '</span>'
+        + '<div class="flow"><span class="n"><span class="num0">' + r.before + '</span>' + UNIT + '</span>'
         + '<span class="rail"></span><span class="cap">' + r.cap + '</span><span class="rail tip"></span>'
-        + '<span class="n res">' + r.pre + ' <span class="num ' + r.nc + '">' + r.num + '</span></span></div>'
+        + '<span class="n res">' + r.pre + ' <span class="num ' + r.nc + '">' + r.num + '</span>' + UNIT + '</span></div>'
         + '</div>';
     });
     return html + '</div>';
