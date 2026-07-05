@@ -198,6 +198,7 @@
   .ball-wrap { margin: 30px 0 6px; perspective: 900px; }
   .ball {
     position: relative;
+    scroll-margin-top: 70px;
     width: min(320px, 80vw);
     aspect-ratio: 1;
     border-radius: 50%;
@@ -633,10 +634,13 @@
   let hasShaken = false;
 
   function scrollToAnswer() {
-    var targetY = reading.getBoundingClientRect().top + window.scrollY - 90;
+    var startY = window.scrollY;
+    ball.scrollIntoView({ block: "start" });   // browser computes the zoom-correct target (honours scroll-margin-top)
+    var targetY = window.scrollY;
+    window.scrollTo(0, startY);                 // jump back, then ease to it
     if (reduce) { window.scrollTo(0, targetY); return; }
-    var startY = window.scrollY, dist = targetY - startY, dur = 1000, t0 = null;
-    if (Math.abs(dist) < 4) return;
+    var dist = targetY - startY, dur = 1000, t0 = null;
+    if (Math.abs(dist) < 4) { window.scrollTo(0, targetY); return; }
     function step(ts) {
       if (t0 === null) t0 = ts;
       var p = Math.min((ts - t0) / dur, 1);
