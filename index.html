@@ -497,15 +497,15 @@
 
     { label: "Let a lead expire",
       value: "down", queue: "none",
-      valueSub: "value comes off your name and it's gone, no credit for it",
-      queueSub: "no bump. Your gap does NOT reopen, so no replacement lead", trap: true,
-      win: "YOU BLINKED", tone: "bad", badge: "The trap",
-      meaning: "The lead's value comes off your name, but unlike giving one away, your gap does <b>NOT</b> reopen and you get <b>no</b> queue bump to replace it." },
+      valueSub: "the value lifts back off your name, you reclaim that room",
+      queueSub: "your queue spot holds, no bump either way",
+      win: "NO HARM", tone: "neutral", badge: "No penalty",
+      meaning: "When a lead lapses, its value lifts back off your name, your gap reopens, and you reclaim that room. Your queue spot holds either way, no bump. You lose the lead itself, but there's no penalty for letting it go. If it gets reassigned back to you, that's when you take the value on again and drop to the bottom." },
 
     { label: "Get a lead re-assigned after it expired",
-      value: "up", queue: "down", queueSub: "smaller gap → you slide back",
+      value: "up", queue: "down", queueSub: "smaller gap → you drop to the bottom",
       win: "SECOND LIFE", tone: "depends", badge: "Second chance",
-      meaning: "Your SD re-sticks a dead lead back to you, value returns to your name, gap closes, you slide back. A genuine second chance, but only if you <b>actually work it this time.</b>" },
+      meaning: "The expired lead gets re-stuck to you. You take its value back on, your gap closes, and you drop to the bottom of the queue. A genuine second chance, but only if you <b>actually work it this time.</b>" },
 
     { label: "Take one from the Take-It pool (Blue Leads)",
       value: "up", queue: "down", queueSub: "smaller gap → you drop back in line",
@@ -541,9 +541,8 @@
     { h: "The move", rows: [
       { who: "You", you: true, before: "$99k", cap: "you bin the dead <span class='k'>$1k</span>", pre: "now", num: "$100k", nc: "up", q: "Top of the queue", qd: "up" }
     ]},
-    { h: "The trap", rows: [
-      { who: "You", you: true, before: "$99k", cap: "the <span class='k'>$1k lead</span> dies on your name", pre: "still", num: "$99k", nc: "flat", q: "No change", qd: "flat" },
-      { who: "A teammate grabs it", before: "$100k", cap: "the dead <span class='k'>$1k</span> becomes theirs", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
+    { h: "The move", rows: [
+      { who: "You", you: true, before: "$99k", cap: "the <span class='k'>$1k</span> lifts back off your name", pre: "back to", num: "$100k", nc: "up", q: "No change", qd: "flat" }
     ]},
     { h: "The move", rows: [
       { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k</span> is re-stuck to you", pre: "now", num: "$99k", nc: "down", q: "Bottom of the queue", qd: "down" }
