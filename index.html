@@ -368,9 +368,11 @@
   .flow .cap { flex: 0 0 auto; font-size: 10.5px; font-style: italic; color: var(--muted); white-space: nowrap; }
   .flow .cap .k { color: var(--gold); font-style: normal; font-weight: 700; }
   @media (max-width: 480px) {
-    .flow { flex-direction: column; align-items: flex-start; gap: 3px; }
+    .flow { flex-flow: row wrap; align-items: baseline; gap: 3px 7px; }
     .flow .rail { display: none; }
-    .flow .cap { text-align: left; }
+    .flow .n.res::before { content: "→"; color: var(--gold-dim); margin-right: 6px; }
+    .flow .cap { flex-basis: 100%; order: 3; text-align: left; }
+    .de { padding: 15px 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -518,31 +520,31 @@
 
   const EXAMPLES = [
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k in opportunity", cap: "the queue feeds you a <span class='k'>$1k lead</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "the queue feeds you a <span class='k'>$1k lead</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k in opportunity", cap: "you stack your own <span class='k'>$1k client</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "you stack your own <span class='k'>$1k client</span>", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The swap", rows: [
-      { who: "You", you: true, before: "$99k in opportunity", cap: "you hand the <span class='k'>$1k lead</span> off", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" },
-      { who: "A teammate", before: "$100k in opportunity", cap: "the <span class='k'>$1k</span> lands with them", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$99k", cap: "you hand the <span class='k'>$1k lead</span> off", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" },
+      { who: "A teammate", before: "$100k", cap: "the <span class='k'>$1k</span> lands with them", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The swap", rows: [
-      { who: "You", you: true, before: "$100k in opportunity", cap: "the <span class='k'>$1k lead</span> lands on you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" },
-      { who: "A teammate", before: "$99k in opportunity", cap: "they hand it to <span class='k'>you</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
+      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k lead</span> lands on you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" },
+      { who: "A teammate", before: "$99k", cap: "they hand it to <span class='k'>you</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$99k in opportunity", cap: "you bin the dead <span class='k'>$1k</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
+      { who: "You", you: true, before: "$99k", cap: "you bin the dead <span class='k'>$1k</span>", pre: "now", num: "$100k in opportunity", nc: "up", q: "Top of the queue", qd: "up" }
     ]},
     { h: "The trap", rows: [
-      { who: "You", you: true, before: "$99k in opportunity", cap: "the <span class='k'>$1k lead</span> dies on your name", pre: "still", num: "$99k in opportunity", nc: "flat", q: "No change", qd: "flat" },
-      { who: "A teammate grabs it", before: "$100k in opportunity", cap: "the dead <span class='k'>$1k</span> becomes theirs", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$99k", cap: "the <span class='k'>$1k lead</span> dies on your name", pre: "still", num: "$99k in opportunity", nc: "flat", q: "No change", qd: "flat" },
+      { who: "A teammate grabs it", before: "$100k", cap: "the dead <span class='k'>$1k</span> becomes theirs", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k in opportunity", cap: "the <span class='k'>$1k</span> is re-stuck to you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "the <span class='k'>$1k</span> is re-stuck to you", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { h: "The move", rows: [
-      { who: "You", you: true, before: "$100k in opportunity", cap: "you grab a <span class='k'>$1k lead</span> off the shelf", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
+      { who: "You", you: true, before: "$100k", cap: "you grab a <span class='k'>$1k lead</span> off the shelf", pre: "now", num: "$99k in opportunity", nc: "down", q: "Bottom of the queue", qd: "down" }
     ]},
     { note: "Nothing moves. Your gap and your queue spot both hold, win or lose." },
     { note: "Nothing moves. The quote is out and the scoreboard is frozen." }
