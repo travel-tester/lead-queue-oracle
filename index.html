@@ -19,7 +19,7 @@
   }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: #070510; }
+  html, body { margin: 0; padding: 0; background: #070510; -webkit-tap-highlight-color: transparent; }
 
   .stage {
     zoom: 0.9;
@@ -432,7 +432,7 @@
   }
 
   /* ===== ball easter egg ===== */
-  .ball { cursor: pointer; user-select: none; -webkit-user-select: none; }
+  .ball { cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; outline: none; }
   .ball.nudge { animation: nudge 0.44s ease; }
   @keyframes nudge {
     0%,100% { transform: translate(0,0) rotate(0); }
@@ -444,8 +444,8 @@
   .ball.blendspin::before { display: none; }   /* kill the drop-shadow/gloss box the blur reveals */
   @keyframes blendspin {
     0%   { transform: rotate(0deg) scale(1); }
-    50%  { transform: rotate(1080deg) scale(.82); }
-    100% { transform: rotate(2160deg) scale(1); }
+    50%  { transform: rotate(1800deg) scale(.8); }
+    100% { transform: rotate(3600deg) scale(1); }
   }
 
   /* the genie takes over the ball */
@@ -453,7 +453,7 @@
     position: absolute; inset: -8%; width: 116%; height: 116%;
     object-fit: contain; z-index: 3; pointer-events: none;
     image-rendering: pixelated;
-    opacity: 0; transition: opacity .75s ease;
+    opacity: 0; transition: opacity .45s ease;
   }
   /* feather only frames that still carry a solid background (the angry face) */
   .oracle-img.masked {
@@ -464,9 +464,8 @@
   .oracle-img.angry-fit { transform: scale(1.018) translateY(3px); }  /* snap mad frame onto happy for a clean dissolve */
   .ball.oracle { background: transparent; box-shadow: none; }
   .ball.oracle::before { display: none; }
-  .window { transition: opacity .55s ease; }
+  .window { transition: opacity .45s ease; }
   .ball.oracle .window { opacity: 0; }
-  .ball.snap .oracle-img, .ball.snap .window { transition: none; }   /* instant swap mid-spin */
   /* slower dissolve when Zoltan melts back into the 8-ball */
   .ball.reverting .window { transition-duration: 1.5s; }
   .ball.reverting .oracle-img { transition-duration: 1.5s; }
@@ -1008,7 +1007,7 @@
 
   // blurred "blend spin": rotate + blur, swap the state at the blurred midpoint
   function blendSpin(atMid, dur, reverse) {
-    dur = dur || 1200;
+    dur = dur || 1000;
     ball.classList.remove("blendspin", "spinrev"); void ball.offsetWidth;
     ball.style.setProperty("--spindur", dur + "ms");
     if (reverse) ball.classList.add("spinrev");
@@ -1063,22 +1062,20 @@
     genieFront.src = GENIE.angry || GENIE_SRC.angry;   // instant switch to mad, no crossfade
     setTimeout(function () {
       if (reduce) { backToBall(); return; }
-      blendSpin(backToBall, 1200, true);   // same spin as the entry, reversed direction
+      blendSpin(backToBall, 1000, true);   // same spin as the entry, reversed direction
     }, 1500);
   }
 
   // dissolve the genie away, revealing the 8-ball again (no spin)
   function backToBall() {
-    ball.classList.add("snap");                            // instant swap under the fast spin (no crossfade pause)
-    ball.classList.remove("oracle");
-    oracleImg.classList.remove("shown"); oracleImg2.classList.remove("shown");
+    ball.classList.remove("oracle");                       // window crossfades back in (mirror of the summon)
+    oracleImg.classList.remove("shown"); oracleImg2.classList.remove("shown");   // genie crossfades out
     eggClicks = 0;   // the whole gag can run again
     setTimeout(function () {
       oracleImg.classList.remove("masked"); oracleImg2.classList.remove("masked");
       oracleImg.removeAttribute("src"); oracleImg2.removeAttribute("src");
       genieFront = oracleImg; genieBack = oracleImg2;
-      ball.classList.remove("snap");
-    }, 900);
+    }, 1000);
   }
 
   function sparkle() {
